@@ -1,37 +1,71 @@
 return {
-  "neovim/nvim-lspconfig",
+  {
+    "neovim/nvim-lspconfig",
 
-  config = function()
-    local lspconfig = require("lspconfig")
+    dependencies = {
+      "mason-org/mason.nvim",
+      "mason-org/mason-lspconfig.nvim",
+    },
 
-    -- blink.cmp capabilities (WICHTIG: ersetzt cmp_nvim_lsp komplett)
-    local capabilities = require("blink.cmp").get_lsp_capabilities()
+    config = function()
+      local lspconfig = require("lspconfig")
 
-    local on_attach = function(_, bufnr)
-      local map = vim.keymap.set
-      local opts = { buffer = bufnr, silent = true }
+      local capabilities = require("blink.cmp").get_lsp_capabilities()
 
-      map("n", "gd", vim.lsp.buf.definition, opts)
-      map("n", "gr", vim.lsp.buf.references, opts)
-      map("n", "K", vim.lsp.buf.hover, opts)
-      map("n", "<leader>rn", vim.lsp.buf.rename, opts)
-      map("n", "<leader>ca", vim.lsp.buf.code_action, opts)
-    end
+      local on_attach = function(_, bufnr)
+        local map = vim.keymap.set
+        local opts = { buffer = bufnr, silent = true }
 
-    -- Beispiel LSPs (du kannst mehr hinzufügen)
-    lspconfig.lua_ls.setup({
-      capabilities = capabilities,
-      on_attach = on_attach,
-    })
+        map("n", "gd", vim.lsp.buf.definition, opts)
+        map("n", "gr", vim.lsp.buf.references, opts)
+        map("n", "K", vim.lsp.buf.hover, opts)
+        map("n", "<leader>rn", vim.lsp.buf.rename, opts)
+        map("n", "<leader>ca", vim.lsp.buf.code_action, opts)
+        map("n", "<leader>f", function()
+          vim.lsp.buf.format({ async = true })
+        end, opts)
+      end
 
-    lspconfig.ts_ls.setup({
-      capabilities = capabilities,
-      on_attach = on_attach,
-    })
+      -- Lua
+      lspconfig.lua_ls.setup({
+        capabilities = capabilities,
+        on_attach = on_attach,
+      })
 
-    lspconfig.pyright.setup({
-      capabilities = capabilities,
-      on_attach = on_attach,
-    })
-  end,
+      -- TypeScript / React
+      lspconfig.ts_ls.setup({
+        capabilities = capabilities,
+        on_attach = on_attach,
+      })
+
+      -- Python
+      lspconfig.pyright.setup({
+        capabilities = capabilities,
+        on_attach = on_attach,
+      })
+
+      -- HTML
+      lspconfig.html.setup({
+        capabilities = capabilities,
+        on_attach = on_attach,
+      })
+
+      -- CSS
+      lspconfig.cssls.setup({
+        capabilities = capabilities,
+        on_attach = on_attach,
+      })
+
+      -- Tailwind
+      lspconfig.tailwindcss.setup({
+        capabilities = capabilities,
+        on_attach = on_attach,
+      })
+
+      lspconfig.gopls.setup({
+        capabilities = capabilities,
+        on_attach = on_attach,
+      })
+    end,
+  },
 }
