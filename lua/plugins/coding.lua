@@ -3,6 +3,7 @@ return {
   {
     "zbirenbaum/copilot.lua",
     event = "InsertEnter",
+
     opts = {
       suggestion = {
         enabled = true,
@@ -54,14 +55,9 @@ return {
   {
     "ThePrimeagen/harpoon",
     branch = "harpoon2",
+
     dependencies = {
       "nvim-lua/plenary.nvim",
     },
-  },
-
-  -- React/JS snippets
-  {
-    "rafamadriz/friendly-snippets",
-    lazy = true,
   },
 }
