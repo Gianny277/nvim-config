@@ -12,6 +12,8 @@ vim.g.loaded_node_provider = 0
 vim.g.loaded_python3_provider = 0
 vim.g.lazyvim_cmp = "blink.cmp"
 
+vim.g.ai_cmp = false
+
 local opt = vim.opt
 opt.title = true
 opt.number = true

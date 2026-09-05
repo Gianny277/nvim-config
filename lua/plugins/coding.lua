@@ -1,28 +1,40 @@
 return {
-  -- GitHub Copilot
   {
     "zbirenbaum/copilot.lua",
-    event = "InsertEnter",
+    cmd = "Copilot",
+    event = "BufReadPost",
 
-    opts = {
-      suggestion = {
+    opts = function(_, opts)
+      local LazyVim = require("lazyvim.util")
+
+      opts.suggestion = {
         enabled = true,
         auto_trigger = true,
+        hide_during_completion = false,
 
         keymap = {
-          accept = "<C-l>",
+          accept = false,
           next = "<M-]>",
           prev = "<M-[>",
           dismiss = "<C-]>",
         },
-      },
+      }
 
-      panel = {
-        enabled = false,
-      },
-    },
+      LazyVim.cmp.actions.ai_accept = function()
+        local suggestion = require("copilot.suggestion")
+
+        if suggestion.is_visible() then
+          LazyVim.create_undo()
+          suggestion.accept()
+          return true
+        end
+
+        return false
+      end
+
+      return opts
+    end,
   },
-
   -- Auto close brackets/quotes
   {
     "windwp/nvim-autopairs",
